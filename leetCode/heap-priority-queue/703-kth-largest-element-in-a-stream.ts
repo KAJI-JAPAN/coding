@@ -26,6 +26,8 @@ kthLargest.add(4);   // return 8
 
 /*
 追加するたびにsortして計算する
+
+優先度付きキューの概念を用いた実装方法もあったが理解できなかった
 */
 
 class KthLargest {
