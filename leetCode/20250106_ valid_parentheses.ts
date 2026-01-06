@@ -9,12 +9,12 @@ falseの条件
 ・pop した開き括弧が、閉じ括弧と種類不一致
  */
 function isValid(s: string): boolean {
-    const pair = {
+    const pair: Record<string, string> = {
         ")":"(",
         "}":"{",
         "]":"["
     }
-    let stack = ["("]
+    let stack: string[] = ["("]
     for(const string of s) {
         // pushしてcontinueにすることで、以降を発火させない
         if(string === "(" || string === "{" || string === "[") {
