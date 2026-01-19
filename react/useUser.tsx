@@ -22,26 +22,33 @@ export function UserPanel({ userId }: { userId: string }) {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        let cancelled = true;
+        let cancelled = false;
 
         if (!userId) {
             setUser(null);
-            setLoading(null);
+            setLoading(false);
             setError(null);
             return;
         };
 
         setLoading(true);
+        setError(null);
 
-        fetchUser(userId).then((u) =>{
+        (async(): Promise<void>  => {
+        try {
+            const u = await fetchUser(userId);
             if (cancelled) return;
             setUser(u);
-            setLoading(false);
-        }).catch((e) => {
+        } catch(e: unknown) {
             if (cancelled) return;
-            setError(e);
+            setError(e instanceof Error ? e.message : "Unknown error");
+        } finally {
+            if(cancelled) return;
             setLoading(false);
-        })
+        }
+        })()
+
+        return () => cancelled = true;
     }, [userId]);
 
     if (loading) return <div>Loading...</div>
