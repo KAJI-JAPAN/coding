@@ -3,7 +3,7 @@
 // 	•	ローディング / エラー / 空状態を表現する
 // 	•	画面が破棄された後に state 更新して警告が出ないようにする
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 type User = { id: string; name: string };
 
@@ -15,8 +15,6 @@ async function fetchUser(userId: string): Promise<User> {
 }
 
 export function UserPanel({ userId }: { userId: string }) {
-
-
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
@@ -34,7 +32,7 @@ export function UserPanel({ userId }: { userId: string }) {
         setLoading(true);
         setError(null);
 
-        (async(): Promise<void>  => {
+        (async (): Promise<void>  => {
         try {
             const u = await fetchUser(userId);
             if (cancelled) return;
@@ -48,7 +46,9 @@ export function UserPanel({ userId }: { userId: string }) {
         }
         })()
 
-        return () => cancelled = true;
+        return () =>{
+            cancelled = true;
+        }
     }, [userId]);
 
     if (loading) return <div>Loading...</div>
