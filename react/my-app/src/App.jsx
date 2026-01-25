@@ -1,7 +1,7 @@
 import './App.css'
 import { Link, Routes, Route } from 'react-router-dom'
 import { UseUser } from './components/useUser'
-import { searchApi } from './components/searchApi.js'
+import { SearchApi } from './components/searchApi.js'
 
 export default function App() {
     return (
@@ -13,7 +13,7 @@ export default function App() {
             </ul>
             <Routes>
                 <Route path="/set-user" element={<UseUser />} />
-                <Route path="/searh-api" element={<searchApi />} />
+                <Route path="/searh-api" element={<SearchApi />} />
             </Routes>
         </>
     )

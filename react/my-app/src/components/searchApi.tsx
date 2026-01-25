@@ -16,14 +16,67 @@ async function sample(query: string): Promise<string[]> {
 function useDeboucedValue(value: string, delayMs: number) {
 	const [debounced, setDebounced] = useState(value);
 	useEffect(() => {
-		const timer = setTimeout(() => { setDebounced(value),  delayMs })
+		const timer = setTimeout(() => setDebounced(value),  delayMs )
 		return () => clearTimeout(timer);
 	}, [value, delayMs]);
 
 	return debounced;
 }
 
-export const searchApi = () => {
-	// 実装
-	return <div />;
+type Status = "idle" | "loading" | "success" | "error";
+export const SearchApi = () => {
+	const [query, setQuery] = useState("");
+	const bounce =  useDeboucedValue(query, 4000)
+	const [result, setResult] = useState<string[]>([]);
+	const [error, setError] = useState<string | null>(null);
+	const [state, setState] = useState<Status>("idle");
+
+
+	useEffect(() => {
+		const q = bounce.trim()
+
+		if(!q) {
+			setState("idle");
+			setResult([])
+			setError(null)
+			return;
+		}
+
+
+		setState("loading");
+		sample(q).then((q) => {
+			setState("success");
+			setResult(q);
+		}).catch((e) => {
+			setState("error");
+			setError(e instanceof Error ? e.message : "Error");
+		})
+	}, [bounce]);
+
+
+
+	return (
+		<>
+			<input
+				type="search"
+				value={query}
+				onChange={(e) => {
+					setQuery(e.target.value)
+				}}
+			/>
+			{state === "idle" && <div>検索ワードを入力してください。</div>}
+			{state === "loading" && <div>検索中...</div>}
+			{state === "error" && <div role="alert">エラー: {error}</div>}
+			{state === "success" && result?.length === 0 && <div>結果がありません。</div>}
+
+			{state === "success" && result.length > 0 && (
+				<ul>
+					{result?.map((x) => (
+						<li key={x}>{x}</li>
+					))}
+				</ul>
+			)
+			}
+		</>
+	)
 }
