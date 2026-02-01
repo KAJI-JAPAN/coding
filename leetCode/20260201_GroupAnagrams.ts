@@ -6,19 +6,12 @@
 // これはMapでやる
 //  グループ化したい
 //  “検索” を大量にする
-/
 function groupAnagrams(strs: string[]): string[][] {
 	let groupMap: Map<string, string[]> = new Map()
 
 	for(const char of strs) {
-		const chars = char.split("")
-		chars.sort()
-
-		const key = chars.join()
-
-		if(!groupMap.has(key)) {
-			groupMap.set(key, [])
-		}
+		const key = char.split("").sort().join("")
+		if (!groupMap.has(key)) groupMap.set(key, [])
 		groupMap.get(key)!.push(char)
 	}
 
