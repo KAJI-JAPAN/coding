@@ -8,7 +8,7 @@ falseの条件
 ・s最後にtackが空ではない
 ・pop した開き括弧が、閉じ括弧と種類不一致
  */
-function isValid(s: string): boolean {
+function isValid (s: string): boolean {
     const pair: Record<string, string> = {
         ")":"(",
         "}":"{",
