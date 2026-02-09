@@ -9,6 +9,23 @@
 *     型定義: * ログ1件の構造は interface で定義。ID自体の型（文字列）などは type で定義。
 * */
 
+
+/**
+ * 【問題を確認】
+ *  1. 管理者のID配列と実行ログ配列の二つがある
+ *  2. 実行ログは管理者IDと結びついており、管理者IDをresourceIdとして保持している
+ *  3. 実行ログと結びつかないID(resourceId)を探す
+ *
+ * 【要件】
+ *  1. N+1的にならないようにする
+ *  2. includeを使用すると全て走査するので使用しない
+ *
+ * 【方針確認 / 要件すり合わせ】
+ *  1. 実行ログにresourceIdが空のものは存在しますか？
+ *  2. 実行ログのresourceIdが重複の場合に扱いはどのようにしますか？
+ *
+ */
+
 // --- 型定義 ---
 type ResourceId = string;
 
@@ -24,11 +41,13 @@ interface ProcessingLog {
  * @param logs - 実行済みのログ一覧
  */
 const getUnprocessedIds = (masterIds: ResourceId[], logs: ProcessingLog[]): ResourceId[] => {
-	// 1. ログから「処理済みID」を高速検索できる形（Set）に変換
-	// ???
+	if(!masterIds || masterIds.length === 0) return [];
+	if(!logs || logs.length === 0) return [...masterIds];
 
-	// 2. マスターIDをループし、Setに含まれていないものだけを残す
-	// ???
+	const processingLogMap: Set<[ResourceId]> = new Set(logs.map(log => log.resourceId));
+
+	return masterIds.filter(masterId => !processingLogMap.has(masterId))
+
 };
 
 // --- テストデータ ---
