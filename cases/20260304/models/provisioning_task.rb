@@ -1,4 +1,4 @@
-class Provisoining_task < ApplicationController
+class Provisoining_task < ApplicationRecord
   belong_to :employee
 
   scope :runnable, -> {
