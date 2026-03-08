@@ -1,0 +1,36 @@
+Table students {
+  id integer [pk, increment]
+  name varchar [not null]
+  student_number varchar [not null]
+  email varchar [not null]
+  created_at datetime [not null]
+  updated_at datetime [not null]
+}
+
+Table classes {
+  id integer [pk, increment]
+  name varchar [not null]
+  room varchar [not null]
+  credit integer [not null]
+  created_at datetime [not null]
+  updated_at datetime [not null]
+}
+
+
+Table grade {
+  id integer [pk, increment]
+  student_id integer [not null]
+  class_id integer [not null]
+  student_result integer [not null]
+  created_at datetime [not null]
+  updated_at datetime [not null]
+
+  indexes {
+    (student_id, class_id)
+  }
+}
+
+Ref: "students"."id" < "grade"."student_id"
+
+
+Ref: "classes"."id" < "grade"."class_id"
