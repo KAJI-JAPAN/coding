@@ -62,3 +62,13 @@ wepon = AttackPower.new(50)
 player = Player.new(level, base, wepon)
 
 puts "攻撃力：　#{player.total_attack_power.value}"
+
+
+# 次解くやつ
+#class Reservation
+#   attr_accessor :count
+# end
+#
+# # 使う側
+# res = Reservation.new
+# res.count = -5 # 悪魔：マイナス人数で予約できてしまう！
