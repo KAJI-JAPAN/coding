@@ -20,7 +20,7 @@ class AttackPower
   end
 end
 
-def calculate_total_damage(base_power, multiplier, bonus)
+def calculate_total_damage(base_power, multiplier, bonus)20260328.rb
   # 悪い例：変数 tmp の使い回し（再代入）
   tmp = base_power.value
 
